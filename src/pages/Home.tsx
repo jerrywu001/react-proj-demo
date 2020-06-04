@@ -7,7 +7,9 @@ const Home = (props: any) => {
 
     const fetchUsers = async () => {
         setLoading(true);
-        props.callbackfunc();
+        if (props.callbackfunc) {
+            props.callbackfunc();
+        }
         try {
             const users = await MockDemoService.getUsers();
             Modal.info({
