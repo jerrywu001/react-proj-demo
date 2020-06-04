@@ -33,6 +33,7 @@ module.exports = {
     'rules': {
         '@typescript-eslint/no-explicit-any': 'off',
         '@typescript-eslint/explicit-function-return-type': 'off',
+        '@typescript-eslint/interface-name-prefix': 'off',
         'react/jsx-closing-bracket-location': 'off',
         'react/jsx-no-bind': 'off',
         'react/jsx-no-target-blank': 'off',
@@ -42,6 +43,8 @@ module.exports = {
         'react/jsx-filename-extension': 'off',
         'import/extensions': 0,
         'import/no-extraneous-dependencies': 0,
+        'no-unused-expressions': 0,
+        'no-void': 0,
         'no-var': 'warn',
         'quotes': [
             'warn',
@@ -90,7 +93,6 @@ module.exports = {
         'no-multi-assign': 0,
         'no-trailing-spaces': 'warn',
         'keyword-spacing': 'warn',
-        'no-unused-expressions': 'warn',
         'space-before-blocks': 'warn',
         'no-multi-spaces': 'warn',
         'no-redeclare': 'warn',

@@ -1,15 +1,25 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Button, message, Modal } from 'antd';
 import MockDemoService from '../services/MockDemoService';
 
-const Home = (props: any) => {
-    const [loading, setLoading] = useState(false);
+interface IHelloProps {
+    callbackfunc: () => void;
+}
 
-    const fetchUsers = async () => {
-        setLoading(true);
-        if (props.callbackfunc) {
-            props.callbackfunc();
-        }
+export default class Hello extends React.Component<IHelloProps, {[key: string]: any}> {
+    constructor(props: IHelloProps) {
+        super(props);
+        this.state = {
+            loading: false,
+        };
+    }
+
+    fetchUsers = async () => {
+        const { callbackfunc } = this.props;
+        callbackfunc && callbackfunc();
+        this.setState({
+            loading: true,
+        });
         try {
             const users = await MockDemoService.getUsers();
             Modal.info({
@@ -24,28 +34,31 @@ const Home = (props: any) => {
                 message.error(error.message);
             }
         }
-        setLoading(false);
+        this.setState({
+            loading: false,
+        });
     };
 
-    return (
-        <div>
+    render() {
+        const { loading } = this.state;
+        return (
             <div>
-                访问
-                <a href="http://localhost:3000/api/mock/users" target="_blank">http://localhost:3000/api/mock/users</a>
-                查看本地mock数据
-            </div>
-            <hr />
-            <div>
-                <p>动态调用接口，访问mock数据</p>
-                <Button
-                    type="primary"
-                    loading={loading}
-                    onClick={fetchUsers}>get mock data
-                </Button>
-            </div>
+                <div>
+                    访问
+                    <a href="http://localhost:3000/api/mock/users" target="_blank">http://localhost:3000/api/mock/users</a>
+                    查看本地mock数据
+                </div>
+                <hr />
+                <div>
+                    <p>动态调用接口，访问mock数据</p>
+                    <Button
+                        type="primary"
+                        loading={loading}
+                        onClick={this.fetchUsers}>get mock data
+                    </Button>
+                </div>
 
-        </div>
-    );
-};
-
-export default Home;
+            </div>
+        );
+    }
+}
