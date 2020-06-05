@@ -1,16 +1,23 @@
+import MockDemoService from '../services/MockDemoService';
 import React from 'react';
 import { Button, message, Modal } from 'antd';
-import MockDemoService from '../services/MockDemoService';
+import { IMockDemo } from '../interfaces/IMockDemo';
 
 interface IHelloProps {
     callbackfunc: () => void;
 }
 
-export default class Hello extends React.Component<IHelloProps, {[key: string]: any}> {
+interface IHelloState {
+    loading: boolean;
+    users: IMockDemo[];
+}
+
+export default class Hello extends React.Component<IHelloProps, IHelloState> {
     constructor(props: IHelloProps) {
         super(props);
         this.state = {
             loading: false,
+            users: [] as IMockDemo[],
         };
     }
 
@@ -21,13 +28,16 @@ export default class Hello extends React.Component<IHelloProps, {[key: string]: 
             loading: true,
         });
         try {
-            const users = await MockDemoService.getUsers();
-            Modal.info({
-                content: (
-                    <div dataset-testid="rsp">
-                        <pre>{JSON.stringify(users, null, 4)}</pre>
-                    </div>
-                ),
+            const userList = await MockDemoService.getUsers();
+            this.setState(() => ({ users: userList }), () => {
+                const { users } = this.state;
+                Modal.info({
+                    content: (
+                        <div className="users-list">
+                            <pre>{JSON.stringify(users, null, 4)}</pre>
+                        </div>
+                    ),
+                });
             });
         } catch (error) {
             if (error.message) {
@@ -40,9 +50,9 @@ export default class Hello extends React.Component<IHelloProps, {[key: string]: 
     };
 
     render() {
-        const { loading } = this.state;
+        const { loading, users } = this.state;
         return (
-            <div>
+            <>
                 <div>
                     访问
                     <a href="http://localhost:3000/api/mock/users" target="_blank">http://localhost:3000/api/mock/users</a>
@@ -57,8 +67,79 @@ export default class Hello extends React.Component<IHelloProps, {[key: string]: 
                         onClick={this.fetchUsers}>get mock data
                     </Button>
                 </div>
-
-            </div>
+                <hr />
+                {
+                    users.length
+                        ? (
+                            <div data-testid="rsp" className="result">
+                                <pre>{ JSON.stringify(users, null, 4) }</pre>
+                            </div>
+                        )
+                        : null
+                }
+            </>
         );
     }
 }
+// user hooks case
+// import MockDemoService from '../services/MockDemoService';
+// import React, { useState } from 'react';
+// import { Button, message, Modal } from 'antd';
+// import { IMockDemo } from '../interfaces/IMockDemo';
+
+// const Home = (props: any) => {
+//     const [loading, setLoading] = useState(false);
+//     const [users, setUsers] = useState([] as IMockDemo[]);
+
+//     const fetchUsers = async () => {
+//         setLoading(true);
+//         props.callbackfunc && props.callbackfunc();
+//         try {
+//             const userList = await MockDemoService.getUsers();
+//             setUsers(userList);
+//             Modal.info({
+//                 content: (
+//                     <div className="users-list">
+//                         <pre>{JSON.stringify(userList, null, 4)}</pre>
+//                     </div>
+//                 ),
+//             });
+//         } catch (error) {
+//             if (error.message) {
+//                 message.error(error.message);
+//             }
+//         }
+//         setLoading(false);
+//     };
+
+//     return (
+//         <>
+//             <div>
+//                 访问
+//                 <a href="http://localhost:3000/api/mock/users" target="_blank">http://localhost:3000/api/mock/users</a>
+//                 查看本地mock数据
+//             </div>
+//             <hr />
+//             <div>
+//                 <p>动态调用接口，访问mock数据</p>
+//                 <Button
+//                     type="primary"
+//                     loading={loading}
+//                     onClick={fetchUsers}>get mock data
+//                 </Button>
+//             </div>
+//             <hr />
+//             {
+//                 users.length
+//                     ? (
+//                         <div data-testid="rsp" className="result">
+//                             <pre>{ JSON.stringify(users, null, 4) }</pre>
+//                         </div>
+//                     )
+//                     : null
+//             }
+//         </>
+//     );
+// };
+
+// export default Home;

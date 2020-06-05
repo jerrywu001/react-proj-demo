@@ -41,6 +41,7 @@ module.exports = {
         'react/jsx-indent': ['warn', 4],
         'react/jsx-indent-props': ['warn', 4],
         'react/jsx-filename-extension': 'off',
+        'import/order': 0,
         'import/extensions': 0,
         'import/no-extraneous-dependencies': 0,
         'no-unused-expressions': 0,
