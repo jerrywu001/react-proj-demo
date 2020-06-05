@@ -19,6 +19,5 @@ export default class MockDemoService {
             throw new Error(errorMsg);
         }
         return users;
-        // return axios.get(`${url}/users`);
     }
 }
