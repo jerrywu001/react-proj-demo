@@ -13,8 +13,7 @@ jest.mock('axios');
 const mockHandler = axios as jest.Mocked<typeof axios>;
 
 test('render home page, query button element', async () => {
-    const callBack = jest.fn();
-    const wrapper = render(<Home callbackfunc={callBack} />);
+    const wrapper = render(<Home />);
     // 验证组件是否正确渲染
     const btn = wrapper.queryByRole('button');
     expect(btn).toBeInTheDocument();
@@ -41,13 +40,13 @@ test('async to fetch users', async () => {
     const callBack = jest.fn();
     const homeWrapper = render(<Home callbackfunc={callBack} />);
     // 验证组件是否正确渲染
-    const btn = homeWrapper.queryByRole('button');
+    // const btn = homeWrapper.queryByRole('button'); // 如果页面只有一个button
+    const btn = homeWrapper.getByText('get mock data');
     // 触发异步数据获取
     fireEvent.click(btn as Element);
     // 验证异步函数是否被调用
     expect(callBack).toBeCalled();
     // 等待异步结果渲染成功
-    // rerender(<Home callbackfunc={callBack} />);
     const [rspDom, dialog] = await waitForElement(() => [screen.getByTestId('rsp'), screen.getByRole('dialog')]);
     const usersDom = dialog.getElementsByClassName('users-list');
     // 查看异步结果是否渲染成功

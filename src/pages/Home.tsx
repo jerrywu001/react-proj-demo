@@ -1,4 +1,5 @@
 import MockDemoService from '../services/MockDemoService';
+import PropTypes from 'prop-types';
 import React from 'react';
 import { Button, message, Modal } from 'antd';
 import { IMockDemo } from '../interfaces/IMockDemo';
@@ -12,7 +13,15 @@ interface IHelloState {
     users: IMockDemo[];
 }
 
-export default class Hello extends React.Component<IHelloProps, IHelloState> {
+export default class Home extends React.Component<IHelloProps, IHelloState> {
+    static propTypes = {
+        callbackfunc: PropTypes.func.isRequired,
+    };
+
+    static defaultProps = {
+        callbackfunc: () => {},
+    };
+
     constructor(props: IHelloProps) {
         super(props);
         this.state = {
@@ -83,11 +92,16 @@ export default class Hello extends React.Component<IHelloProps, IHelloState> {
 }
 // user hooks case
 // import MockDemoService from '../services/MockDemoService';
+// import PropTypes from 'prop-types';
 // import React, { useState } from 'react';
 // import { Button, message, Modal } from 'antd';
 // import { IMockDemo } from '../interfaces/IMockDemo';
 
-// const Home = (props: any) => {
+// interface IHelloProps {
+//     callbackfunc: () => void;
+// }
+
+// const Home = (props: IHelloProps) => {
 //     const [loading, setLoading] = useState(false);
 //     const [users, setUsers] = useState([] as IMockDemo[]);
 
@@ -140,6 +154,14 @@ export default class Hello extends React.Component<IHelloProps, IHelloState> {
 //             }
 //         </>
 //     );
+// };
+
+// Home.propTypes = {
+//     callbackfunc: PropTypes.func.isRequired,
+// };
+
+// Home.defaultProps = {
+//     callbackfunc: () => {},
 // };
 
 // export default Home;
