@@ -53,4 +53,5 @@ test('async to fetch users', async () => {
     expect(rspDom).toBeInTheDocument();
     expect(usersDom[0]).not.toBeEmpty();
     expect(usersDom[0]).toBeInTheDocument();
+    expect(usersDom[0].textContent).toContain('jack');
 });

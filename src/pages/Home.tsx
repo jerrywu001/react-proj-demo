@@ -101,13 +101,13 @@ export default class Home extends React.Component<IHelloProps, IHelloState> {
 //     callbackfunc: () => void;
 // }
 
-// const Home = (props: IHelloProps) => {
+// const Home = ({ callbackfunc }: IHelloProps) => {
 //     const [loading, setLoading] = useState(false);
 //     const [users, setUsers] = useState([] as IMockDemo[]);
 
 //     const fetchUsers = async () => {
 //         setLoading(true);
-//         props.callbackfunc && props.callbackfunc();
+//         callbackfunc && callbackfunc();
 //         try {
 //             const userList = await MockDemoService.getUsers();
 //             setUsers(userList);
