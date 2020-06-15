@@ -45,6 +45,8 @@ module.exports = {
         'react/jsx-filename-extension': 'off',
         'react/require-default-props': 'off',
         'react/default-props-match-prop-types': 'off',
+        'react/button-has-type': 'off',
+        'max-classes-per-file': 'off',
         'import/order': 0,
         'import/extensions': 0,
         'import/no-extraneous-dependencies': 0,
